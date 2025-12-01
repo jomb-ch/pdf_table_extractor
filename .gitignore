@@ -2,3 +2,14 @@
 /*.iml
 doc/
 .yardoc/
+pkg/
+*.gem
+.DS_Store
+coverage/
+tmp/
+# Bundler config
+/.bundle/
+# Yard cache already ignored above
+# Ruby version manager files
+.rvmrc
+.env
