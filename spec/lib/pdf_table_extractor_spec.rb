@@ -32,7 +32,7 @@ RSpec.describe PdfTableExtractor, type: :service do
     end
 
     context "with pdf_path" do
-      let(:pdf_path) { Rails.root.join("spec", "fixtures", "services", "salto", "pdf_table_extractor", "pdfs", "t1.pdf") }
+      let(:pdf_path) { File.join(FIXTURE_PDFS, "t1.pdf") }
       let(:extractor) { PdfTableExtractor.new(pdf_path.to_s) }
 
       it "initializes instance variables correctly and can extract tables from real PDF file" do
@@ -44,18 +44,18 @@ RSpec.describe PdfTableExtractor, type: :service do
 
   context "when fixture pdf is processed" do
     let(:fixture_name) { "t1" }
-    let(:pdf_reader) { PDF::Reader.new Rails.root.join("spec", "fixtures", "services", "salto", "pdf_table_extractor", "pdfs", "#{fixture_name}.pdf") }
+    let(:pdf_reader) { PDF::Reader.new File.join(FIXTURE_PDFS, "#{fixture_name}.pdf") }
     let(:number_of_fixture_pages) { 4 }
     let(:pdf_reader_output) { pdf_reader.pages[0..number_of_fixture_pages - 1].map { |page| page.text } }
-    let(:fixture_dir) { Rails.root.join("spec", "fixtures", "services", "salto", "pdf_table_extractor", "page_texts") }
+    let(:fixture_dir) { FIXTURE_PAGE_TEXTS }
 
     it "extracted pages sample corresponds to fixture pages" do
-      expect(pdf_reader_output).to eq (0..number_of_fixture_pages - 1).to_a.map { |i| File.read("#{fixture_dir}/#{fixture_name}_#{i}.txt") }
+      expect(pdf_reader_output).to eq (0..number_of_fixture_pages - 1).to_a.map { |i| File.read(File.join(fixture_dir, "#{fixture_name}_#{i}.txt")) }
     end
   end
 
   describe "extract_tables" do
-    let(:all_pages_json) { JSON.parse(File.read(Rails.root.join("spec", "fixtures", "services", "salto", "pdf_table_extractor", "all_pages", "t1.json"))) }
+    let(:all_pages_json) { JSON.parse(File.read(File.join(FIXTURE_ALL_PAGES, "t1.json"))) }
     before { allow(extractor).to receive(:all_pages).and_return(all_pages_json) }
 
     it "extracts tables successfully from fixture PDF" do
@@ -130,9 +130,9 @@ RSpec.describe PdfTableExtractor, type: :service do
   describe "all_pages" do
     let(:fixture_name) { "t1" }
     let(:number_of_fixture_pages) { 6 }
-    let(:fixture_dir) { Rails.root.join("spec", "fixtures", "services", "salto", "pdf_table_extractor", "page_texts") }
-    let(:raw_page_texts) { (0..number_of_fixture_pages - 1).to_a.map { |i| File.read("#{fixture_dir}/#{fixture_name}_#{i}.txt") } }
-    let(:all_pages_json) { File.read(Rails.root.join("spec", "fixtures", "services", "salto", "pdf_table_extractor", "all_pages", "#{fixture_name}.json")) }
+    let(:fixture_dir) { FIXTURE_PAGE_TEXTS }
+    let(:raw_page_texts) { (0..number_of_fixture_pages - 1).to_a.map { |i| File.read(File.join(fixture_dir, "#{fixture_name}_#{i}.txt")) } }
+    let(:all_pages_json) { File.read(File.join(FIXTURE_ALL_PAGES, "#{fixture_name}.json")) }
 
     it "extracts all pages as array of lines" do
       allow(extractor).to receive(:all_pages_texts).and_return(raw_page_texts)
@@ -170,7 +170,7 @@ RSpec.describe PdfTableExtractor, type: :service do
   end
 
   describe "remove_pagination" do
-    let(:all_pages_json) { File.read(Rails.root.join("spec", "fixtures", "services", "salto", "pdf_table_extractor", "all_pages", "t1.json")) }
+    let(:all_pages_json) { File.read(File.join(FIXTURE_ALL_PAGES, "t1.json")) }
     let(:all_pages) { JSON.parse(all_pages_json) }
     before { allow(extractor).to receive(:all_pages).and_return(all_pages) }
 
@@ -183,7 +183,7 @@ RSpec.describe PdfTableExtractor, type: :service do
   end
 
   describe "remove_common_leading_lines" do
-    let(:all_pages_json) { File.read(Rails.root.join("spec", "fixtures", "services", "salto", "pdf_table_extractor", "all_pages", "t1.json")) }
+    let(:all_pages_json) { File.read(File.join(FIXTURE_ALL_PAGES, "t1.json")) }
     let(:all_pages) { JSON.parse(all_pages_json) }
     let(:number_of_common_leading_lines) { 5 }
     before { allow(extractor).to receive(:all_pages).and_return(all_pages) }
@@ -205,7 +205,7 @@ RSpec.describe PdfTableExtractor, type: :service do
   end
 
   describe "remove_common_trailing_lines" do
-    let(:all_pages_json) { File.read(Rails.root.join("spec", "fixtures", "services", "salto", "pdf_table_extractor", "all_pages", "t1.json")) }
+    let(:all_pages_json) { File.read(File.join(FIXTURE_ALL_PAGES, "t1.json")) }
     let(:all_pages) { JSON.parse(all_pages_json) }
     let(:number_of_common_trailing_lines) { 2 }
     before { allow(extractor).to receive(:all_pages).and_return(all_pages) }

@@ -1,0 +1,5 @@
+lib
+--output-dir doc
+--no-private
+--title PDF Table Extractor API Documentation
+

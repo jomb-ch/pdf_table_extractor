@@ -1,0 +1,5 @@
+ignore:
+  - spec/**/*
+ruby_version: 3.2
+fix: false
+

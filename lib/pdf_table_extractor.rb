@@ -1,3 +1,6 @@
-require_relative "pdf_table_extractor/version"
-require_relative "pdf_table_extractor/pdf_table_extractor"
-require_relative "pdf_table_extractor/pdf_table_extractor_row"
+# frozen_string_literal: true
+
+require_relative 'pdf_table_extractor/version'
+require_relative 'pdf_table_extractor/pdf_table_extractor'
+require_relative 'pdf_table_extractor/pdf_table_extractor_row'
+

@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: bundle install --jobs 4 --retry 3
+
+      - name: StandardRB
+        run: bundle exec standardrb
+
+      - name: RuboCop
+        run: bundle exec rubocop --parallel
+
+      - name: RSpec
+        run: bundle exec rspec --format progress --no-color
+
+      - name: Generate YARD docs
+        run: bundle exec yard doc
+
+      - name: Upload docs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: yard-docs
+          path: doc
+

@@ -13,6 +13,16 @@
 # it.
 #
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+
+require "bundler/setup"
+require "pdf_table_extractor"
+require "json"
+
+FIXTURES_ROOT = File.expand_path(File.join(__dir__, "fixtures"))
+FIXTURE_PDFS = File.join(FIXTURES_ROOT, "pdfs")
+FIXTURE_PAGE_TEXTS = File.join(FIXTURES_ROOT, "page_texts")
+FIXTURE_ALL_PAGES = File.join(FIXTURES_ROOT, "all_pages")
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
