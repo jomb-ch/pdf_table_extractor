@@ -15,7 +15,9 @@ Gem::Specification.new do |spec|
   spec.license = "MIT"
 
   spec.metadata = {
-    "rubygems_mfa_required" => "true"
+    "rubygems_mfa_required" => "true",
+    "source_code_uri" => "https://github.com/jomb-ch/pdf_table_extractor",
+    "changelog_uri" => "https://github.com/jomb-ch/pdf_table_extractor/releases"
   }
 
   spec.add_dependency "pdf-reader", "~> 2.8"
